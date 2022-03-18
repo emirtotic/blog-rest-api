@@ -56,7 +56,6 @@ public class PostServiceImpl implements PostService {
         postResponse.setLast(posts.isLast());
 
         return postResponse;
-
     }
 
     @Override

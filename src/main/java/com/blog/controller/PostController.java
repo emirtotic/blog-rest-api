@@ -2,7 +2,6 @@ package com.blog.controller;
 
 import com.blog.dto.PostDto;
 import com.blog.dto.PostResponse;
-import com.blog.entity.Post;
 import com.blog.service.PostService;
 import com.blog.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Locale;
 
 @RestController
