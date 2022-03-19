@@ -8,6 +8,7 @@ import com.blog.repository.CommentRepository;
 import com.blog.repository.PostRepository;
 import com.blog.service.PostService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,12 @@ public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
     private CommentServiceImpl commentServiceImpl;
+    private ModelMapper modelMapper;
 
-    public PostServiceImpl(PostRepository postRepository, CommentServiceImpl commentServiceImpl) {
+    public PostServiceImpl(PostRepository postRepository, CommentServiceImpl commentServiceImpl, ModelMapper modelMapper) {
         this.postRepository = postRepository;
         this.commentServiceImpl = commentServiceImpl;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -91,27 +94,11 @@ public class PostServiceImpl implements PostService {
     }
 
     private Post convertDTOObjectToEntityObject(PostDto postDto) {
-
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
-        post.setComments(postDto.getComments().stream()
-                .map(x -> commentServiceImpl.convertCommentDtoToCommentEntity(x)).collect(Collectors.toSet()));
-        return post;
+        return modelMapper.map(postDto, Post.class);
     }
 
     private PostDto convertEntityObjectToDTOObject(Post post) {
-
-        PostDto postResponse = new PostDto();
-        postResponse.setId(post.getId());
-        postResponse.setTitle(post.getTitle());
-        postResponse.setDescription(post.getDescription());
-        postResponse.setContent(post.getContent());
-        postResponse.setComments(post.getComments().stream()
-                .map(x -> commentServiceImpl.convertCommentEntityToCommentDto(x)).collect(Collectors.toSet()));
-
-        return postResponse;
+        return modelMapper.map(post, PostDto.class);
     }
 
 }
