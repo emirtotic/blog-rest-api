@@ -4,6 +4,7 @@ import com.blog.dto.PostDto;
 import com.blog.dto.PostResponse;
 import com.blog.entity.Post;
 import com.blog.exception.ResourceNotFoundException;
+import com.blog.repository.CommentRepository;
 import com.blog.repository.PostRepository;
 import com.blog.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +22,11 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+    private CommentServiceImpl commentServiceImpl;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, CommentServiceImpl commentServiceImpl) {
         this.postRepository = postRepository;
+        this.commentServiceImpl = commentServiceImpl;
     }
 
     @Override
@@ -93,6 +96,8 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
+        post.setComments(postDto.getComments().stream()
+                .map(x -> commentServiceImpl.convertCommentDtoToCommentEntity(x)).collect(Collectors.toSet()));
         return post;
     }
 
@@ -103,6 +108,8 @@ public class PostServiceImpl implements PostService {
         postResponse.setTitle(post.getTitle());
         postResponse.setDescription(post.getDescription());
         postResponse.setContent(post.getContent());
+        postResponse.setComments(post.getComments().stream()
+                .map(x -> commentServiceImpl.convertCommentEntityToCommentDto(x)).collect(Collectors.toSet()));
 
         return postResponse;
     }
