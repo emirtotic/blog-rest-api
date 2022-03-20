@@ -28,6 +28,13 @@ public class CommentServiceImpl implements CommentService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Method for creating a new comment
+     *
+     * @param postId
+     * @param commentDto
+     * @return CommentDto
+     */
     @Override
     public CommentDto createComment(long postId, CommentDto commentDto) {
 
@@ -44,6 +51,12 @@ public class CommentServiceImpl implements CommentService {
         return convertCommentEntityToCommentDto(savedComment);
     }
 
+    /**
+     * Getting All comments for post with provided ID
+     *
+     * @param postId
+     * @return List<CommentDto>
+     */
     @Override
     public List<CommentDto> getCommentsByPostId(Long postId) {
 
@@ -52,6 +65,13 @@ public class CommentServiceImpl implements CommentService {
         return comments.stream().map(this::convertCommentEntityToCommentDto).collect(Collectors.toList());
     }
 
+    /**
+     * Finding a method by comment ID
+     *
+     * @param postId
+     * @param commentId
+     * @return CommentDto
+     */
     @Override
     public CommentDto findCommentById(Long postId, Long commentId) {
 
@@ -67,6 +87,14 @@ public class CommentServiceImpl implements CommentService {
         return convertCommentEntityToCommentDto(comment);
     }
 
+    /**
+     * Method for updating the existing comment
+     *
+     * @param postId
+     * @param commentId
+     * @param commentDto
+     * @return CommentDto
+     */
     @Override
     public CommentDto updateComment(Long postId, Long commentId, CommentDto commentDto) {
 
@@ -88,6 +116,12 @@ public class CommentServiceImpl implements CommentService {
         return convertCommentEntityToCommentDto(updatedComment);
     }
 
+    /**
+     * Method for deleting a comment
+     *
+     * @param postId
+     * @param commentId
+     */
     @Override
     public void deleteComment(Long postId, Long commentId) {
 
@@ -104,10 +138,22 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    /**
+     * Converting Comment Entity to CommentDto object.
+     *
+     * @param comment
+     * @return CommentDto
+     */
     public CommentDto convertCommentEntityToCommentDto(Comment comment) {
         return modelMapper.map(comment, CommentDto.class);
     }
 
+    /**
+     * Converting CommentDto to Comment Entity object.
+     *
+     * @param commentDto
+     * @return
+     */
     public Comment convertCommentDtoToCommentEntity(CommentDto commentDto) {
         return modelMapper.map(commentDto, Comment.class);
     }

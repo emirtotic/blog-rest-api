@@ -4,7 +4,6 @@ import com.blog.dto.PostDto;
 import com.blog.dto.PostResponse;
 import com.blog.entity.Post;
 import com.blog.exception.ResourceNotFoundException;
-import com.blog.repository.CommentRepository;
 import com.blog.repository.PostRepository;
 import com.blog.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +31,12 @@ public class PostServiceImpl implements PostService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Method for creating the new post
+     *
+     * @param postDto
+     * @return PostDto
+     */
     @Override
     public PostDto createPost(PostDto postDto) {
 
@@ -41,6 +46,15 @@ public class PostServiceImpl implements PostService {
         return convertEntityObjectToDTOObject(newPost);
     }
 
+    /**
+     * Method for retrieving all posts from DB
+     *
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param orderBy
+     * @return PostResponse
+     */
     @Override
     public PostResponse getAllPosts(int pageNumber, int pageSize, String sortBy, String orderBy) {
 
@@ -64,6 +78,12 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
 
+    /**
+     * Finding the post by provided ID
+     *
+     * @param id
+     * @return PostDto
+     */
     @Override
     public PostDto getPostById(Long id) {
 
@@ -72,6 +92,13 @@ public class PostServiceImpl implements PostService {
         return convertEntityObjectToDTOObject(post);
     }
 
+    /**
+     * Updating the post
+     *
+     * @param postDto
+     * @param id
+     * @return PostDto
+     */
     @Override
     public PostDto updatePost(PostDto postDto, Long id) {
 
@@ -86,6 +113,11 @@ public class PostServiceImpl implements PostService {
         return convertEntityObjectToDTOObject(updatedPost);
     }
 
+    /**
+     * Method for deleting the post
+     *
+     * @param id
+     */
     @Override
     public void deletePost(Long id) {
 
@@ -93,10 +125,22 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(post);
     }
 
+    /**
+     * Method for converting PostDto object to Post entity
+     *
+     * @param postDto
+     * @return
+     */
     private Post convertDTOObjectToEntityObject(PostDto postDto) {
         return modelMapper.map(postDto, Post.class);
     }
 
+    /**
+     * Method for converting Post Entity to PostDto object
+     *
+     * @param post
+     * @return
+     */
     private PostDto convertEntityObjectToDTOObject(Post post) {
         return modelMapper.map(post, PostDto.class);
     }

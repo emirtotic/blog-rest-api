@@ -11,7 +11,6 @@ public interface CommentService {
      *
      * @param postId
      * @param commentDto
-     *
      * @return CommentDto
      */
     CommentDto createComment(long postId, CommentDto commentDto);
@@ -29,7 +28,6 @@ public interface CommentService {
      *
      * @param postId
      * @param commentId
-     *
      * @return CommentDto
      */
     CommentDto findCommentById(Long postId, Long commentId);
@@ -40,7 +38,6 @@ public interface CommentService {
      * @param postId
      * @param commentId
      * @param commentDto
-     *
      * @return CommentDto
      */
     CommentDto updateComment(Long postId, Long commentId, CommentDto commentDto);

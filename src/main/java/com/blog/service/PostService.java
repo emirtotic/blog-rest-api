@@ -9,7 +9,6 @@ public interface PostService {
      * Method for creating the new post
      *
      * @param postDto
-     *
      * @return PostDto
      */
     PostDto createPost(PostDto postDto);
@@ -21,7 +20,6 @@ public interface PostService {
      * @param pageSize
      * @param sortBy
      * @param orderBy
-     *
      * @return PostResponse
      */
     PostResponse getAllPosts(int pageNumber, int pageSize, String sortBy, String orderBy);
@@ -30,7 +28,6 @@ public interface PostService {
      * Finding the post by provided ID
      *
      * @param id
-     *
      * @return PostDto
      */
     PostDto getPostById(Long id);
@@ -40,7 +37,6 @@ public interface PostService {
      *
      * @param postDto
      * @param id
-     *
      * @return PostDto
      */
     PostDto updatePost(PostDto postDto, Long id);
