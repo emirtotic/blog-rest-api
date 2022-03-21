@@ -129,7 +129,7 @@ public class PostServiceImpl implements PostService {
      * Method for converting PostDto object to Post entity
      *
      * @param postDto
-     * @return
+     * @return Post
      */
     private Post convertDTOObjectToEntityObject(PostDto postDto) {
         return modelMapper.map(postDto, Post.class);
@@ -139,7 +139,7 @@ public class PostServiceImpl implements PostService {
      * Method for converting Post Entity to PostDto object
      *
      * @param post
-     * @return
+     * @return PostDto
      */
     private PostDto convertEntityObjectToDTOObject(Post post) {
         return modelMapper.map(post, PostDto.class);

@@ -152,7 +152,7 @@ public class CommentServiceImpl implements CommentService {
      * Converting CommentDto to Comment Entity object.
      *
      * @param commentDto
-     * @return
+     * @return Comment
      */
     public Comment convertCommentDtoToCommentEntity(CommentDto commentDto) {
         return modelMapper.map(commentDto, Comment.class);
