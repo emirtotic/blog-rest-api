@@ -1,6 +1,7 @@
 package com.blog.exception;
 
 import com.blog.error.ErrorDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice  // Use this annotation to handle the exception globally.
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
@@ -29,6 +31,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDetails> handleResourceNotFoundException(
             ResourceNotFoundException exception,
             WebRequest webRequest) {
+
+        log.error("ResourceNotFoundException Occurred!");
 
         ErrorDetails errorDetails = new ErrorDetails(
                 new Date(),
@@ -49,6 +53,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDetails> handleBlogAPIException(
             BlogAPIException exception,
             WebRequest webRequest) {
+
+        log.error("BlogAPIException Occurred!");
 
         ErrorDetails errorDetails = new ErrorDetails(
                 new Date(),
@@ -92,6 +98,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        log.error("Error occurred while data validation!");
 
         Map<String, String> errors = new HashMap<>();
 
