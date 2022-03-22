@@ -41,6 +41,8 @@ public class JWTTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
 
+        log.info("BEARER TOKEN : {}", token);
+
         return token;
     }
 

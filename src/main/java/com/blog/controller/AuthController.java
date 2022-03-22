@@ -1,11 +1,14 @@
 package com.blog.controller;
 
+import com.blog.dto.JWTAuthResponse;
 import com.blog.dto.LoginDto;
 import com.blog.dto.SignUpDto;
 import com.blog.entity.Role;
 import com.blog.entity.User;
 import com.blog.repository.RoleRepository;
 import com.blog.repository.UserRepository;
+import com.blog.security.JWTTokenProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,23 +27,27 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private JWTTokenProvider jwtTokenProvider;
 
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
-                          RoleRepository roleRepository) {
+                          RoleRepository roleRepository,
+                          JWTTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto) {
 
         PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
@@ -52,7 +59,11 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseEntity<>("User signed-in successfully.", HttpStatus.OK);
+        // get the token from jwtTokenProvider
+        String token = jwtTokenProvider.generateToken(authentication);
+        log.info("BEARER TOKEN : {}", token);
+
+        return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 
     @PostMapping("/signup")
